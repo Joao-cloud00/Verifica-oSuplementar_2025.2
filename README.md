@@ -1,0 +1,1 @@
+# Verifica-oSuplementar_2025.2
