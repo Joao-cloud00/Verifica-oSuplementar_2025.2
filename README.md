@@ -10,6 +10,10 @@ Assunto: Verificação Suplementar – Ray Casting com BVH
 
 Status: ✅ Concluído
 
+Link do Relatorio: https://drive.google.com/file/d/1ZCfFpeX9rj4MURwvDM_02jShtbJgO8ht/view?usp=sharing
+
+Link do Video: https://www.youtube.com/watch?v=NZR6913Ds20
+
 # 
 
 # #Controles do Projeto
