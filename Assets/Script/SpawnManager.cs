@@ -36,19 +36,16 @@ public class EnemySpawner : MonoBehaviour
             bool validPositionFound = false;
             int attempts = 0;
 
-            // Tenta encontrar uma posição livre X vezes
             while (!validPositionFound && attempts < maxSpawnAttempts)
             {
                 attempts++;
 
-                // 1. Gera uma posição aleatória
                 Vector3 randomPoint = transform.position + new Vector3(
                     Random.Range(-spawnAreaSize.x / 2, spawnAreaSize.x / 2),
                     0,
                     Random.Range(-spawnAreaSize.z / 2, spawnAreaSize.z / 2)
                 );
 
-                // 2. Verifica se existe colisão nessa posição (CheckSphere retorna true se bater em algo)
                 if (!Physics.CheckSphere(randomPoint, checkRadius, collisionLayer))
                 {
                     spawnPosition = randomPoint;
@@ -56,7 +53,6 @@ public class EnemySpawner : MonoBehaviour
                 }
             }
 
-            // 3. Só instancia se encontrou uma posição válida
             if (validPositionFound)
             {
                 Instantiate(enemyPrefab[Random.Range(0, enemyPrefab.Count)], spawnPosition, Quaternion.identity);
@@ -73,7 +69,6 @@ public class EnemySpawner : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(transform.position, spawnAreaSize);
 
-        // Visualizar o raio de verificação (apenas para referência visual no centro)
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, checkRadius);
     }

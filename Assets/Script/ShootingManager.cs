@@ -1,5 +1,5 @@
 using UnityEngine;
-using System.Diagnostics; // Para o Stopwatch
+using System.Diagnostics;
 using Debug = UnityEngine.Debug;
 
 public class ShootingManager : MonoBehaviour
@@ -17,23 +17,18 @@ public class ShootingManager : MonoBehaviour
 
     void Update()
     {
-        // Botão ESQUERDO: Apenas BVH (Visual Verde)
         if (Input.GetMouseButtonDown(0))
         {
             Ray raio = Camera.main.ScreenPointToRay(Input.mousePosition);
             AtirarComBVH(raio);
         }
 
-        // Botão DIREITO: Apenas Sem BVH (Visual Vermelho)
         if (Input.GetMouseButtonDown(1))
         {
             Ray raio = Camera.main.ScreenPointToRay(Input.mousePosition);
             AtirarSemBVH(raio);
         }
 
-        // --- NOVIDADE ---
-        // BOTÃO DO MEIO (Scroll): Comparação em Tempo Real
-        // Executa os dois no mesmo pixel e mostra a diferença exata
         if (Input.GetMouseButtonDown(2))
         {
             Ray raio = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -58,7 +53,6 @@ public class ShootingManager : MonoBehaviour
             {
                 acertou = true;
                 Debug.DrawLine(raio.origin, hit.point, Color.green, 2f);
-                // Log compactado e limpo
                 Debug.Log($"<color=green><b>[BVH]</b> ACERTOU: {hit.collider.name}</color> | Custo: <b>{sw.ElapsedTicks}</b> ticks");
                 break;
             }
@@ -66,7 +60,7 @@ public class ShootingManager : MonoBehaviour
         sw.Stop();
 
         if (!acertou)
-            Debug.Log($"<color=green>[BVH]</color> ERROU (Otimizado) | Custo: <b>{sw.ElapsedTicks}</b> ticks (Muito baixo!)");
+            Debug.Log($"<color=green>[BVH]</color> ERROU (Otimizado) | Custo: <b>{sw.ElapsedTicks}</b> ticks");
     }
 
     void AtirarSemBVH(Ray raio)
@@ -114,7 +108,7 @@ public class ShootingManager : MonoBehaviour
         if (ticksCom == 0) ticksCom = 1;
 
         float vezesMaisRapido = (float)ticksSem / (float)ticksCom;
-        string cor = vezesMaisRapido > 1 ? "cyan" : "orange"; // Ciano se for bom, Laranja se for ruim (raro)
+        string cor = vezesMaisRapido > 1 ? "cyan" : "orange";
 
         string mensagem = $"<b><color={cor}>=== RELATÓRIO DO TIRO ===</color></b>\n";
         mensagem += $"Resultado: {(acertou ? "ACERTOU ALVO" : "ERROU (Céu)")}\n";
@@ -127,7 +121,6 @@ public class ShootingManager : MonoBehaviour
 
     void RealizarTesteDePerformance()
     {
-        UnityEngine.Debug.Log("Iniciando teste de estresse...");
         Stopwatch sw = new Stopwatch();
 
         // --- COM BVH ---
@@ -153,7 +146,7 @@ public class ShootingManager : MonoBehaviour
         sw.Stop();
         long tempoSem = sw.ElapsedMilliseconds;
 
-        UnityEngine.Debug.Log("Teste de estresse em massa (T) iniciado...");
+        UnityEngine.Debug.Log("Teste de estresse em massa (T) finalizado...");
         UnityEngine.Debug.Log($"RESULTADO ({quantidadeTestePerformance} tiros):\nBVH: {tempoBVH}ms\nSem BVH: {tempoSem}ms");
     }
 }
